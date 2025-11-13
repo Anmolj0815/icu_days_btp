@@ -13,7 +13,7 @@ class ICUData(BaseModel):
     age: str
     height: Optional[float] = None
     weight: Optional[float] = None
-    bmi: Optional[float] = Field(None, description="Body Mass Index (BMI).") # ADDED
+    bmi: Optional[float] = Field(None, description="Body Mass Index (BMI).") 
     
     # 2. SURGICAL & ANESTHESIA DETAILS
     department: str
@@ -25,8 +25,8 @@ class ICUData(BaseModel):
     iv2: Optional[str] = None
     blood_prod: Optional[str] = None
     asa: Optional[float] = None
-    emop: Optional[Literal['Y', 'N']] = Field(None, description="Emergency operation status.") # ADDED
-    tubesize: Optional[float] = Field(None, description="Endotracheal tube size.") # ADDED
+    emop: Optional[Literal['Y', 'N']] = Field(None, description="Emergency operation status.") 
+    tubesize: Optional[float] = Field(None, description="Endotracheal tube size.") 
 
     # 3. TEXTUAL FEATURES 
     preop_ecg: Optional[str] = None
@@ -44,23 +44,23 @@ class ICUData(BaseModel):
     
     preop_hb: Optional[float] = None
     preop_wbc: Optional[float] = None
-    preop_plt: Optional[float] = Field(None, description="Platelet count.") 
-    preop_bun: Optional[float] = Field(None, description="Blood Urea Nitrogen.") 
-    preop_cr: Optional[float] = Field(None, description="Creatinine.") 
-    preop_na: Optional[float] = Field(None, description="Sodium.") 
-    preop_k: Optional[float] = Field(None, description="Potassium.") 
+    preop_plt: Optional[float] = None 
+    preop_bun: Optional[float] = None 
+    preop_cr: Optional[float] = None 
+    preop_na: Optional[float] = None 
+    preop_k: Optional[float] = None 
     preop_cl: Optional[float] = None
     preop_glucose: Optional[float] = None
-    preop_albumin: Optional[float] = Field(None, description="Albumin.") 
-    preop_pt: Optional[float] = Field(None, description="Prothrombin Time.") 
+    preop_albumin: Optional[float] = None 
+    preop_pt: Optional[float] = None 
     preop_ptt: Optional[float] = None
 
     # ADDED MISSING PRE-OP LABS
-    preop_gluc: Optional[float] = Field(None, description="Pre-op Glucose/Gluc.") # ADDED
-    preop_ast: Optional[float] = Field(None, description="Pre-op AST liver enzyme.") # ADDED
-    preop_alt: Optional[float] = Field(None, description="Pre-op ALT liver enzyme.") # ADDED
-    preop_aptt: Optional[float] = Field(None, description="Pre-op aPTT.") # ADDED
-    preop_dm: Optional[Literal['Y', 'N', 'Unknown']] = Field(None, description="Pre-op Diabetes Mellitus status.") # ADDED
+    preop_gluc: Optional[float] = Field(None, description="Pre-op Glucose/Gluc.") 
+    preop_ast: Optional[float] = Field(None, description="Pre-op AST liver enzyme.") 
+    preop_alt: Optional[float] = Field(None, description="Pre-op ALT liver enzyme.") 
+    preop_aptt: Optional[float] = Field(None, description="Pre-op aPTT.") 
+    preop_dm: Optional[Literal['Y', 'N', 'Unknown']] = Field(None, description="Pre-op Diabetes Mellitus status.") 
     
     preop_ph: Optional[float] = None
     preop_pao2: Optional[float] = None
@@ -78,21 +78,21 @@ class ICUData(BaseModel):
     urine_output: Optional[float] = None
     
     # ADDED NEW INTRA-OP DRUGS/FLUIDS
-    intraop_crystalloid: Optional[float] = Field(None, description="Intra-op Crystalloid volume.") # ADDED
-    intraop_colloid: Optional[float] = Field(None, description="Intra-op Colloid volume.") # ADDED
-    intraop_rbc: Optional[float] = Field(None, description="Intra-op Red Blood Cell transfusion units.") # ADDED
-    intraop_ffp: Optional[float] = Field(None, description="Intra-op FFP units.") # ADDED
+    intraop_crystalloid: Optional[float] = Field(None, description="Intra-op Crystalloid volume.") 
+    intraop_colloid: Optional[float] = Field(None, description="Intra-op Colloid volume.") 
+    intraop_rbc: Optional[float] = Field(None, description="Intra-op Red Blood Cell transfusion units.") 
+    intraop_ffp: Optional[float] = Field(None, description="Intra-op FFP units.") 
     
     # ADDED NEW INTRA-OP DRUGS/AGENTS
-    intraop_ftn: Optional[float] = Field(None, description="Intra-op Fentanyl dose.") # ADDED
-    intraop_mdz: Optional[float] = Field(None, description="Intra-op Midazolam dose.") # ADDED
-    intraop_vecu: Optional[float] = Field(None, description="Intra-op Vecuronium dose.") # ADDED
-    intraop_rocu: Optional[float] = Field(None, description="Intra-op Rocuronium dose.") # ADDED
-    intraop_eph: Optional[float] = Field(None, description="Intra-op Ephedrine dose.") # ADDED
-    intraop_epi: Optional[float] = Field(None, description="Intra-op Epinephrine dose.") # ADDED
-    intraop_phe: Optional[float] = Field(None, description="Intra-op Phenylephrine dose.") # ADDED
-    intraop_ppf: Optional[float] = Field(None, description="Intra-op Propofol dose.") # ADDED
-    intraop_ca: Optional[float] = Field(None, description="Intra-op Calcium dose.") # ADDED
+    intraop_ftn: Optional[float] = Field(None, description="Intra-op Fentanyl dose.") 
+    intraop_mdz: Optional[float] = Field(None, description="Intra-op Midazolam dose.") 
+    intraop_vecu: Optional[float] = Field(None, description="Intra-op Vecuronium dose.") 
+    intraop_rocu: Optional[float] = Field(None, description="Intra-op Rocuronium dose.") 
+    intraop_eph: Optional[float] = Field(None, description="Intra-op Ephedrine dose.") 
+    intraop_epi: Optional[float] = Field(None, description="Intra-op Epinephrine dose.") 
+    intraop_phe: Optional[float] = Field(None, description="Intra-op Phenylephrine dose.") 
+    intraop_ppf: Optional[float] = Field(None, description="Intra-op Propofol dose.") 
+    intraop_ca: Optional[float] = Field(None, description="Intra-op Calcium dose.") 
     
     # 6. POST-OPERATIVE/RISK PARAMETERS
     postop_hb: Optional[float] = None
