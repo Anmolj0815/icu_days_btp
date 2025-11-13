@@ -27,12 +27,9 @@ ALL_NUMERICAL_FEATURES = [
 ]
 
 # Columns that were explicitly dropped in the notebook
+# IMPORTANT FIX: Removed core lab values that were causing repeated errors.
 COLUMNS_TO_DROP = [
-    'caseid', 'cline2', 'op_duration', 'height', 'weight', 
-    'preop_sbp', 'preop_dbp', 'preop_pr', 'preop_rr', 'preop_temp', 
-    'preop_plt', 'preop_bun', 'preop_cr', 'preop_na', 'preop_k', 'preop_cl', 
-    'preop_glucose', 'preop_albumin', 'preop_pt', 'preop_ptt', 'preop_ph', 
-    'preop_pao2', 'preop_paco2', 'preop_o2sat', 'preop_hco3', 'preop_be', 
+    'caseid', 'cline2', 'op_duration', 'height', 'weight', 'preop_glucose'
 ]
 
 class ModelService:
@@ -64,15 +61,17 @@ class ModelService:
             return False
 
     def preprocess_input(self, raw_data: Dict[str, Any]) -> np.ndarray:
-        # Create DataFrame from input data, filling missing Pydantic Optional fields (None) with NaN
         df = pd.DataFrame([raw_data])
         
         # 1. Standardize DataFrame structure and ensure all NUMERICAL columns exist as floats (with NaN for missing)
         for col in ALL_NUMERICAL_FEATURES:
-            # If column is missing or explicitly None/null from JSON, ensure it exists and is set to NaN
-            if col not in df.columns or df[col].isnull().all() or df[col].dtype == object:
-                df[col] = pd.to_numeric(df.get(col, pd.Series([np.nan])), errors='coerce')
-        
+            # This ensures the column exists in the DataFrame for the Imputer to work
+            if col not in df.columns:
+                df[col] = np.nan
+            else:
+                # Convert to numeric, errors='coerce' turns strings/unparsable data into NaN
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+
         # 2. Handle 'age' feature conversion to numeric 
         if 'age' in df.columns:
             df['age'] = df['age'].astype(str).str.replace('>89', '90', regex=False)
