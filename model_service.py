@@ -62,26 +62,34 @@ class ModelService:
     def preprocess_input(self, raw_data: Dict[str, Any]) -> np.ndarray:
         df = pd.DataFrame([raw_data])
         
-        # 1. Handle Numerical features (Ensuring existence and float type)
+        # 1. Handle String/Categorical Features: MUST be handled first.
+        # This list must cover all columns that contain string data (including Y/N, Male/Female, etc.)
+        ALL_STRING_FEATURES = [
+            'sex', 'department', 'approach', 'position', 'ane_type', 'iv1', 'iv2', 
+            'blood_prod', 'renal_function_status', 'liver_function_status', 
+            'ventilation_mode', 'muscle_relaxant', 'opioid_used', 
+            'antibiotic_prophylaxis', 'surgeon_id', 'anesthesiologist_id',
+            'preop_diabetes', 'preop_htn', 'preop_copd', 'preop_chf', 'preop_dm', 
+            'emop', 'preop_ecg', 'preop_pft', 'dx', 'opname', 'optype'
+        ]
+
+        for col in ALL_STRING_FEATURES:
+            if col not in df.columns:
+                 df[col] = ''
+            else:
+                 df[col] = df[col].astype(str).fillna('')
+        
+        # 2. Handle Numerical Features: Ensure existence and numeric type
         for col in ALL_NUMERICAL_FEATURES:
             if col not in df.columns:
                 df[col] = np.nan
             else:
                 df[col] = pd.to_numeric(df[col], errors='coerce')
-        
-        # 2. Handle 'age' feature conversion 
+
+        # 3. Handle 'age' conversion (Special Case)
         if 'age' in df.columns:
             df['age'] = df['age'].astype(str).str.replace('>89', '90', regex=False)
             df['age'] = pd.to_numeric(df['age'], errors='coerce') 
-
-        # 3. Handle string/categorical features (Ensuring existence and string type)
-        text_features = ['preop_ecg', 'preop_pft', 'dx', 'opname', 'optype']
-        for col in text_features:
-             if col not in df.columns:
-                 df[col] = ''
-             elif df[col].dtype != object:
-                 df[col] = df[col].astype(str)
-             df[col] = df[col].fillna('')
 
         # 4. Drop columns that are completely irrelevant 
         df = df.drop(columns=[col for col in COLUMNS_TO_DROP if col in df.columns], errors='ignore')
