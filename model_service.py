@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass 
 
-# FINAL DEFINITIVE NUMERICAL FEATURES (Total 66 features, including special types)
+# FINAL DEFINITIVE NUMERICAL FEATURES
 ALL_NUMERICAL_FEATURES = [
     'age', 'preop_hb', 'preop_wbc', 'intraop_ebl', 'bmi', 
     'preop_sbp', 'preop_dbp', 'preop_pr', 'preop_rr', 'preop_temp', 
@@ -51,6 +51,7 @@ class ModelService:
             print("Artifacts loaded successfully.")
             return True
         except FileNotFoundError as e:
+            # THIS IS THE ERROR YOU ARE RECEIVING
             print(f"Error: Artifact file not found. Details: {e}")
             self.preprocessor = None
             self.model = None
