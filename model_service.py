@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass 
 
-# FINAL DEFINITIVE NUMERICAL FEATURES
+# FINAL DEFINITIVE NUMERICAL FEATURES (Total 66 features, including special types)
 ALL_NUMERICAL_FEATURES = [
     'age', 'preop_hb', 'preop_wbc', 'intraop_ebl', 'bmi', 
     'preop_sbp', 'preop_dbp', 'preop_pr', 'preop_rr', 'preop_temp', 
@@ -63,7 +63,6 @@ class ModelService:
         df = pd.DataFrame([raw_data])
         
         # 1. Handle String/Categorical Features: MUST be handled first.
-        # This list must cover all columns that contain string data (including Y/N, Male/Female, etc.)
         ALL_STRING_FEATURES = [
             'sex', 'department', 'approach', 'position', 'ane_type', 'iv1', 'iv2', 
             'blood_prod', 'renal_function_status', 'liver_function_status', 
@@ -77,8 +76,8 @@ class ModelService:
             if col not in df.columns:
                  df[col] = ''
             else:
-                 df[col] = df[col].astype(str).fillna('')
-        
+                 df[col] = df[col].astype(str).fillna('') 
+
         # 2. Handle Numerical Features: Ensure existence and numeric type
         for col in ALL_NUMERICAL_FEATURES:
             if col not in df.columns:
