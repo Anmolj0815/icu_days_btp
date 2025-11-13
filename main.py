@@ -7,6 +7,7 @@ from model_service import model_service
 
 class ICUData(BaseModel):
     
+    # All 74 features defined here (adjust names if needed to match your CSV)
     caseid: Optional[str] = None
     sex: Literal['M', 'F', 'nan', 'MALE', 'FEMALE']
     age: str
@@ -85,7 +86,7 @@ class ICUData(BaseModel):
     intraop_temp_max: Optional[float] = None
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "caseid": "C-2025", "sex": "F", "age": "70", "height": 165.0, "weight": 65.0,
                 "department": "Cardio", "approach": "Minimally Invasive", "position": "Lateral",
