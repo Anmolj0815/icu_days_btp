@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass 
 
-# All numerical features that require imputation/scaling/PCA (must match artifact_saver)
+# All numerical features that require imputation/scaling/PCA (Based on your dataset structure)
 ALL_NUMERICAL_FEATURES = [
     'age', 'preop_hb', 'preop_wbc', 'intraop_ebl', 'bmi', 
     'preop_sbp', 'preop_dbp', 'preop_pr', 'preop_rr', 'preop_temp', 
@@ -27,9 +27,8 @@ ALL_NUMERICAL_FEATURES = [
 ]
 
 # Columns that were explicitly dropped in the notebook
-# IMPORTANT FIX: Removed core lab values that were causing repeated errors.
 COLUMNS_TO_DROP = [
-    'caseid', 'cline2', 'op_duration', 'height', 'weight', 'preop_glucose'
+    'caseid', 'cline2'
 ]
 
 class ModelService:
@@ -65,13 +64,11 @@ class ModelService:
         
         # 1. Standardize DataFrame structure and ensure all NUMERICAL columns exist as floats (with NaN for missing)
         for col in ALL_NUMERICAL_FEATURES:
-            # This ensures the column exists in the DataFrame for the Imputer to work
             if col not in df.columns:
                 df[col] = np.nan
             else:
-                # Convert to numeric, errors='coerce' turns strings/unparsable data into NaN
                 df[col] = pd.to_numeric(df[col], errors='coerce')
-
+        
         # 2. Handle 'age' feature conversion to numeric 
         if 'age' in df.columns:
             df['age'] = df['age'].astype(str).str.replace('>89', '90', regex=False)
@@ -83,7 +80,7 @@ class ModelService:
              if col in df.columns:
                  df[col] = df[col].fillna('')
 
-        # 4. Drop columns that are completely irrelevant and not part of the preprocessing pipeline
+        # 4. Drop columns that are completely irrelevant 
         df = df.drop(columns=[col for col in COLUMNS_TO_DROP if col in df.columns], errors='ignore')
 
         if self.preprocessor is None:
