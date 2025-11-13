@@ -15,7 +15,7 @@ ALL_NUMERICAL_FEATURES = [
     'age', 'preop_hb', 'preop_wbc', 'intraop_ebl', 'bmi', 
     'preop_sbp', 'preop_dbp', 'preop_pr', 'preop_rr', 'preop_temp', 
     'preop_plt', 'preop_bun', 'preop_cr', 'preop_na', 'preop_k', 'preop_cl', 
-    'preop_glucose', 'preop_albumin', 'preop_pt', 'preop_ptt', 'preop_ph', 
+    'preop_glucose', 'preop_alb', 'preop_pt', 'preop_ptt', 'preop_ph', 
     'preop_pao2', 'preop_paco2', 'preop_o2sat', 'preop_hco3', 'preop_be', 
     'intraop_sbp_min', 'intraop_dbp_min', 'intraop_pr_min', 'urine_output', 
     'postop_hb', 'postop_wbc', 'postop_cr', 'cardiac_risk', 'room_temp', 
