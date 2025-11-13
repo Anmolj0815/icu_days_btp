@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass 
 
-# All numerical features (Must be complete and accurate)
+# FINAL DEFINITIVE NUMERICAL FEATURES
 ALL_NUMERICAL_FEATURES = [
     'age', 'preop_hb', 'preop_wbc', 'intraop_ebl', 'bmi', 
     'preop_sbp', 'preop_dbp', 'preop_pr', 'preop_rr', 'preop_temp', 
@@ -62,26 +62,28 @@ class ModelService:
     def preprocess_input(self, raw_data: Dict[str, Any]) -> np.ndarray:
         df = pd.DataFrame([raw_data])
         
-        # 1. Standardize Numerical features
+        # 1. Handle Numerical features (Ensuring existence and float type)
         for col in ALL_NUMERICAL_FEATURES:
             if col not in df.columns:
                 df[col] = np.nan
             else:
-                # Convert to numeric; this is where the 'N' string error was occurring.
                 df[col] = pd.to_numeric(df[col], errors='coerce')
         
-        # 2. Handle 'age' feature conversion
+        # 2. Handle 'age' feature conversion 
         if 'age' in df.columns:
             df['age'] = df['age'].astype(str).str.replace('>89', '90', regex=False)
             df['age'] = pd.to_numeric(df['age'], errors='coerce') 
 
-        # 3. Handle text feature imputation 
+        # 3. Handle string/categorical features (Ensuring existence and string type)
         text_features = ['preop_ecg', 'preop_pft', 'dx', 'opname', 'optype']
         for col in text_features:
-             if col in df.columns:
-                 df[col] = df[col].fillna('')
+             if col not in df.columns:
+                 df[col] = ''
+             elif df[col].dtype != object:
+                 df[col] = df[col].astype(str)
+             df[col] = df[col].fillna('')
 
-        # 4. Drop irrelevant columns
+        # 4. Drop columns that are completely irrelevant 
         df = df.drop(columns=[col for col in COLUMNS_TO_DROP if col in df.columns], errors='ignore')
 
         if self.preprocessor is None:
